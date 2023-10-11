@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+        <style>
+                .comment-block{
+                        background-color: #09c;
+                        color: #fff1f2;
+                        padding: 20px;
+                        border-radius: 20px;
+                        margin: 2vh 5vw;
+                }
+        </style>
+        <span class="post-block">
+                <a href="/posts">Retour à la sélection des posts</a>
+        <h1>{{ post.titre }}</h1>
+        <h4>{{ post.auteur }}</h4>
+        <img src="{{ vich_uploader_asset(post) }}" alt="...">
+        <p>{{ post.contenu|raw }}</p>
+                {% for post in post %}
+                        <p>Nombres de likes : {{ post.countlikes|length }}</p>
+                        <p>Nombres de dislikes : {{ post.countdislike|length }}</p>
+                        <a href="{{ path('app_view_comment_like',{id:post.id}) }}">
+                                <button class="btn btn-success">Like</button>
+                        </a>
+                        <a href="{{ path('app_view_comment_dislike',{id:post.id}) }}">
+                                <button class="btn btn-danger">Dislike</button>
+                        </a>
+                        {% endfor %}
+        {% for comment in post.comments %}
+                <div class="comment-block">
+                        <p>{{ comment.subject }}</p>
+                        <p>{{ comment.content }}</p>
+                        <p>Nombres de likes : {{ comment.countlikes|length }}</p>
+                        <p>Nombres de dislikes : {{ comment.countdislike|length }}</p>
+                        <a href="{{ path('app_view_comment_like',{id:comment.id}) }}">
+                                <button class="btn btn-success">Like</button>
+                        </a>
+                        <a href="{{ path('app_view_comment_dislike',{id:comment.id}) }}">
+                                <button class="btn btn-danger">Dislike</button>
+                        </a>
+                </div>
+        {% endfor %}
+        {% if app.user is defined and app.user is not null %}
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-light">Commenter</button>
+                {{ form_end(form) }}
+        {% else %}
+                <a href="{{ path('app_login') }}">Connectez-vous pour commenter</a>
+        {% endif %}
+        </span>
+{% endblock %}

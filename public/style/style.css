@@ -1,0 +1,6 @@
+.flex-post{
+	display: flex;
+	justify-content: center;
+	gap: 10vw;
+	flex-wrap: wrap;
+}

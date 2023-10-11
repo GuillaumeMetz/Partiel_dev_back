@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    {% if app.user is defined and app.user is not null %}
+{#        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-light">Poster</button>
+        {{ form_end(form) }}#}
+        <div class="flex-post">
+            {% for post in posts %}
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ vich_uploader_asset(post) }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.titre }}</h5>
+                        <p class="card-text">{{ post.contenu|raw }}</p>
+                        <a href="{{ path('app_view_post',{'id': post.id,'slug':post.slug}) }}" class="btn btn-primary">Lire plus</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="/admin?crudAction=index&crudControllerFqcn=App%5CController%5CAdmin%5CPostCrudController">Ajouter un post</a>
+    {% else %}
+        <a href="{{ path('app_login') }}">Connectez-vous pour accéder aux fonctionnalités</a>
+    {% endif %}
+
+{% endblock %}
